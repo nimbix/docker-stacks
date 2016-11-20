@@ -6,16 +6,17 @@
 # Use bash for inline if-statements in test target
 SHELL:=bash
 
-OWNER:=jupyter
+OWNER:=jarvice
+
 # need to list these manually because there's a dependency tree
 ALL_STACKS:=base-notebook \
-	minimal-notebook \
-	r-notebook \
-	scipy-notebook \
-	tensorflow-notebook \
-	datascience-notebook \
-	pyspark-notebook \
-	all-spark-notebook
+       minimal-notebook \
+       r-notebook \
+       scipy-notebook \
+       tensorflow-notebook \
+       datascience-notebook \
+       pyspark-notebook \
+       all-spark-notebook
 
 ALL_IMAGES:=$(ALL_STACKS)
 

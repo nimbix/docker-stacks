@@ -2,7 +2,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 # Debian Jessie image released 2016 May 03.
-FROM debian@sha256:32a225e412babcd54c0ea777846183c61003d125278882873fb2bc97f9057c51
+FROM nimbix/ubuntu-cuda:trusty
 
 MAINTAINER Jupyter Project <jupyter@googlegroups.com>
 
@@ -11,9 +11,9 @@ USER root
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
 ENV DEBIAN_FRONTEND noninteractive
-RUN REPO=http://cdn-fastly.deb.debian.org \
- && echo "deb $REPO/debian jessie main\ndeb $REPO/debian-security jessie/updates main" > /etc/apt/sources.list \
- && apt-get update && apt-get -yq dist-upgrade \
+#RUN REPO=http://cdn-fastly.deb.debian.org \
+# && echo "deb $REPO/debian jessie main\ndeb $REPO/debian-security jessie/updates main" > /etc/apt/sources.list \
+RUN apt-get update && apt-get -yq --force-yes dist-upgrade \
  && apt-get install -yq --no-install-recommends \
     wget \
     bzip2 \
@@ -36,16 +36,15 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.10.0/tini 
 ENV CONDA_DIR /opt/conda
 ENV PATH $CONDA_DIR/bin:$PATH
 ENV SHELL /bin/bash
-ENV NB_USER jovyan
-ENV NB_UID 1000
+ENV NB_USER nimbix
+ENV NB_UID 505
 ENV HOME /home/$NB_USER
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 # Create jovyan user with UID=1000 and in the 'users' group
-RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
-    mkdir -p $CONDA_DIR && \
+RUN mkdir -p $CONDA_DIR && \
     chown $NB_USER $CONDA_DIR
 
 USER $NB_USER
